@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     [MODIFICA] TITOLO E DESCRIZIONE (importanti per Google)
+     ═══════════════════════════════════════════════════════════════════════ -->
+<title>Trattoria da Marco · Cucina emiliana a Parma</title>
+<meta name="description" content="Trattoria da Marco: cucina tradizionale emiliana nel cuore di Parma. Tortelli, salumi, vini locali. Prenota il tuo tavolo.">
+
+<!--
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  COME PERSONALIZZARE QUESTO SITO — leggere prima di iniziare         │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │  1. COLORI + FONT → tutto nel blocco ":root" qui sotto (nel <style>).│
+  │     Cambia --brand e il sito intero cambia identità in 1 secondo.    │
+  │                                                                       │
+  │  2. TESTI → cerca i tag [MODIFICA] nel file e sostituisci.           │
+  │                                                                       │
+  │  3. FOTO → i riquadri colorati sono segnaposto. Ogni riquadro ha     │
+  │     accanto un commento che spiega come mettere la foto vera.        │
+  │                                                                       │
+  │  4. FORM CONTATTI → funziona SENZA backend con Web3Forms (gratis).   │
+  │     Istruzioni nel commento sopra il form + variabile in fondo.      │
+  │                                                                       │
+  │  5. MAPPA → istruzioni nel commento sopra la sezione mappa.          │
+  │                                                                       │
+  │  6. ONLINE → trascina questo file su https://app.netlify.com/drop    │
+  │     (gratis, 30 secondi). Poi dominio custom se il cliente lo vuole. │
+  │                                                                       │
+  └─────────────────────────────────────────────────────────────────────┘
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   [MODIFICA] IDENTITÀ DEL SITO — questo è l'UNICO punto da toccare
+   per ricolorare tutto. Cambia clienti = cambi questi valori.
+   ══════════════════════════════════════════════════════════════════════ */
+:root {
+  /* --- COLORE PRINCIPALE del cliente (bottoni, link, accenti) --- */
+  --brand:        #0f5148;   /* verde pino — cambia questo per rifare il brand */
+  --brand-dark:   #0a3a33;   /* versione scura (hover bottoni) */
+
+  /* --- Accento secondario (dettagli, sottolineature) --- */
+  --accent:       #d98e3c;   /* ocra caldo */
+
+  /* --- Neutri (di solito non serve toccarli) --- */
+  --ink:          #1c1a17;   /* testo scuro */
+  --ink-soft:     #5f584e;   /* testo secondario */
+  --paper:        #f6f2ea;   /* sfondo pagina */
+  --surface:      #fffdf9;   /* card, riquadri */
+  --line:         #e6ddce;   /* bordi sottili */
+
+  /* --- Font (da Google Fonts, già caricati sopra) --- */
+  --font-display: 'Bricolage Grotesque', sans-serif;  /* titoli */
+  --font-body:    'Figtree', sans-serif;              /* testo */
+
+  /* Larghezza massima dei contenuti */
+  --wrap: 1120px;
+}
+
+/* ─── Reset & base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.65;
+  font-size: 1.0625rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); text-decoration: none; }
+
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; }
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 24px; }
+
+/* Blocco sezione standard — un'unica classe per l'imbottitura verticale,
+   così i margini tra sezioni non entrano in conflitto */
+.block { padding-block: clamp(64px, 9vw, 112px); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--accent); }
+
+.section-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin-top: 14px; }
+.section-intro { max-width: 56ch; color: var(--ink-soft); margin-top: 16px; font-size: 1.125rem; }
+
+/* ─── Bottoni ───────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 600; font-size: 1rem;
+  padding: 14px 26px; border-radius: 999px; border: 1.5px solid transparent;
+  cursor: pointer; transition: transform .15s ease, background .2s ease, color .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--brand); color: #fff; }
+.btn-primary:hover { background: var(--brand-dark); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--ink); }
+.btn-light { background: #fff; color: var(--brand); }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ═══ NAV ═══════════════════════════════════════════════════════════════ */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s ease, background .3s ease;
+}
+.nav.scrolled { border-color: var(--line); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.brand-name {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.35rem;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.brand-name span { color: var(--brand); }
+.nav__links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav__links a { color: var(--ink); font-weight: 500; font-size: 0.98rem; position: relative; }
+.nav__links a::after {
+  content: ""; position: absolute; left: 0; bottom: -5px; width: 0; height: 2px;
+  background: var(--brand); transition: width .25s ease;
+}
+.nav__links a:hover::after { width: 100%; }
+.nav__cta { margin-left: 8px; }
+
+.nav__toggle {
+  display: none; background: none; border: 0; cursor: pointer; padding: 8px;
+  flex-direction: column; gap: 5px;
+}
+.nav__toggle span { width: 24px; height: 2px; background: var(--ink); transition: .3s; }
+
+/* ═══ HERO ══════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative; color: #fff; overflow: hidden;
+  /* Sfondo a gradiente coi colori del brand. Sembra intenzionale anche
+     senza foto. Per METTERE UNA FOTO di sfondo: togli il commento sotto e
+     metti l'URL della foto (o il nome del file caricato accanto all'HTML). */
+  background:
+    radial-gradient(120% 120% at 15% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 55%),
+    linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 100%);
+  /*
+  background-image:
+    linear-gradient(160deg, rgba(10,58,51,.72), rgba(10,58,51,.88)),
+    url('foto-hero.jpg');
+  background-size: cover; background-position: center;
+  */
+}
+.hero__inner { padding-block: clamp(96px, 16vw, 168px); max-width: 760px; }
+.hero .eyebrow { color: #fff; }
+.hero .eyebrow::before { background: var(--accent); }
+.hero h1 { font-size: clamp(2.8rem, 8vw, 5.2rem); margin-top: 18px; }
+.hero__tag { font-size: clamp(1.1rem, 2.4vw, 1.4rem); margin-top: 22px; max-width: 48ch; color: rgba(255,255,255,.9); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 38px; }
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 9px; margin-top: 34px;
+  font-size: 0.92rem; color: rgba(255,255,255,.85);
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #6ee7a8; box-shadow: 0 0 0 4px rgba(110,231,168,.25); }
+
+/* ═══ CHI SIAMO ─────────────────────────────────────────────────────── */
+.about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 72px); align-items: center; }
+.about__body p { color: var(--ink-soft); margin-top: 18px; }
+.about__stats { display: flex; gap: 40px; margin-top: 34px; }
+.stat b { font-family: var(--font-display); font-size: 2.2rem; color: var(--brand); display: block; line-height: 1; }
+.stat span { font-size: 0.9rem; color: var(--ink-soft); }
+
+/* Riquadro foto (segnaposto). Per la foto vera: sostituisci l'intero
+   <div class="photo ...">…</div> con <img src="foto.jpg" alt="descrizione"> */
+.photo {
+  aspect-ratio: 4 / 5; border-radius: 18px; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 18%, var(--surface)), var(--surface));
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+}
+.photo__label { font-size: 0.85rem; color: var(--ink-soft); background: var(--paper); padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); }
+
+/* ═══ MENU / SERVIZI ────────────────────────────────────────────────── */
+/* Funziona sia come MENU (ristoranti/bar) sia come LISTINO SERVIZI
+   (parrucchieri, estetica, ecc.): piatto/servizio a sinistra, prezzo a destra. */
+.menu { background: var(--surface); }
+.menu__cats { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 64px); margin-top: 54px; }
+.menu__cat h3 { font-size: 1.5rem; padding-bottom: 14px; border-bottom: 2px solid var(--brand); display: inline-block; }
+.menu__list { list-style: none; margin-top: 22px; }
+.menu__item { display: flex; align-items: baseline; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.menu__item .name { font-weight: 600; }
+.menu__item .desc { display: block; font-size: 0.92rem; color: var(--ink-soft); font-weight: 400; margin-top: 3px; }
+.menu__item .leader { flex: 1; border-bottom: 1px dotted color-mix(in srgb, var(--ink-soft) 55%, transparent); transform: translateY(-4px); }
+.menu__item .price { font-family: var(--font-display); font-weight: 600; color: var(--brand); white-space: nowrap; }
+
+@media (min-width: 700px) {
+  .menu__cats { grid-template-columns: 1fr 1fr; }
+  .menu__cat--full { grid-column: 1 / -1; }
+}
+
+/* ═══ GALLERIA ──────────────────────────────────────────────────────── */
+.gallery__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 48px; }
+/* Ogni tile è un segnaposto. Per la foto vera: sostituisci il contenuto
+   della tile con <img src="foto.jpg" alt="..."> (occupa già tutto il box). */
+.tile {
+  aspect-ratio: 1; border-radius: 14px; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 14%, var(--surface)), color-mix(in srgb, var(--accent) 14%, var(--surface)));
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  transition: transform .3s ease;
+}
+.tile:nth-child(1) { grid-row: span 2; aspect-ratio: auto; }
+.tile img { width: 100%; height: 100%; object-fit: cover; }
+.tile:hover { transform: scale(0.985); }
+.tile span { font-size: 0.8rem; color: var(--ink-soft); }
+
+/* ═══ INFO & ORARI ──────────────────────────────────────────────────── */
+.info { background: var(--surface); }
+.info__grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(32px, 6vw, 64px); }
+.hours { list-style: none; }
+.hours li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.hours .day { font-weight: 500; }
+.hours .time { color: var(--ink-soft); }
+.hours .closed { color: #c0392b; }
+.contact-lines { margin-top: 30px; display: grid; gap: 14px; }
+.contact-lines a, .contact-lines p { display: flex; gap: 12px; align-items: center; color: var(--ink); }
+.contact-lines .ico { color: var(--brand); flex-shrink: 0; }
+
+/* Mappa */
+.map { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); min-height: 340px; height: 100%; }
+.map iframe { width: 100%; height: 100%; min-height: 340px; border: 0; display: block; }
+.map__placeholder { display: grid; place-items: center; height: 100%; min-height: 340px; background: var(--paper); color: var(--ink-soft); text-align: center; padding: 24px; }
+
+/* ═══ CONTATTI (form) ───────────────────────────────────────────────── */
+.form { max-width: 560px; margin-top: 44px; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-weight: 500; font-size: 0.92rem; margin-bottom: 7px; }
+.field input, .field textarea {
+  width: 100%; font-family: var(--font-body); font-size: 1rem;
+  padding: 13px 15px; border: 1.5px solid var(--line); border-radius: 12px;
+  background: var(--surface); color: var(--ink); transition: border-color .2s;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--brand); }
+.field textarea { resize: vertical; min-height: 130px; }
+.form__note { margin-top: 14px; font-size: 0.9rem; padding: 12px 16px; border-radius: 10px; display: none; }
+.form__note.ok { display: block; background: #e7f6ee; color: #1a7a45; }
+.form__note.err { display: block; background: #fdecea; color: #c0392b; }
+
+/* ═══ FOOTER ────────────────────────────────────────────────────────── */
+.footer { background: var(--brand-dark); color: rgba(255,255,255,.82); padding-block: 60px 34px; }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+.footer h4 { font-family: var(--font-display); color: #fff; font-size: 1.05rem; margin-bottom: 16px; }
+.footer a { color: rgba(255,255,255,.82); display: block; padding: 4px 0; }
+.footer a:hover { color: #fff; }
+.footer__brand .brand-name { color: #fff; }
+.footer__brand .brand-name span { color: var(--accent); }
+.footer__brand p { margin-top: 12px; max-width: 34ch; font-size: 0.95rem; }
+.socials { display: flex; gap: 14px; margin-top: 18px; }
+.socials a { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); display: grid; place-items: center; padding: 0; }
+.socials a:hover { background: rgba(255,255,255,.12); }
+.footer__bottom { margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.15); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 0.85rem; }
+
+/* ─── Animazioni di comparsa allo scroll ────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ═══ RESPONSIVE (tablet / mobile) ──────────────────────────────────── */
+@media (max-width: 820px) {
+  .nav__links {
+    position: fixed; inset: 72px 0 auto 0; flex-direction: column; gap: 4px;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    padding: 20px 24px 28px; transform: translateY(-120%); transition: transform .35s ease;
+  }
+  .nav__links.open { transform: translateY(0); }
+  .nav__links a { padding: 10px 0; width: 100%; }
+  .nav__cta { margin: 8px 0 0; }
+  .nav__toggle { display: flex; }
+
+  .about__grid, .menu__cats, .info__grid { grid-template-columns: 1fr; }
+  .about__grid .photo { order: -1; max-width: 420px; }
+  .gallery__grid { grid-template-columns: repeat(2, 1fr); }
+  .tile:nth-child(1) { grid-row: span 1; aspect-ratio: 1; }
+  .form__row { grid-template-columns: 1fr; }
+  .footer__grid { grid-template-columns: 1fr; gap: 30px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ═══ NAVIGAZIONE ═══════════════════════════════════════════════════ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <!-- [MODIFICA] Nome attività -->
+    <a href="#top" class="brand-name">Trattoria <span>da Marco</span></a>
+
+    <nav>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#chi-siamo">Chi siamo</a></li>
+        <li><a href="#menu">Menu</a></li>       <!-- [MODIFICA] "Servizi" per parrucchieri ecc. -->
+        <li><a href="#galleria">Galleria</a></li>
+        <li><a href="#info">Orari</a></li>
+        <li><a href="#contatti">Contatti</a></li>
+        <li class="nav__cta"><a href="#contatti" class="btn btn-primary">Prenota</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav__toggle" id="navToggle" aria-label="Apri menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap hero__inner">
+    <!-- [MODIFICA] Tipo attività + zona -->
+    <p class="eyebrow">Cucina emiliana · Parma centro</p>
+    <!-- [MODIFICA] Nome grande -->
+    <h1>Il gusto vero dell'Emilia, ogni giorno.</h1>
+    <!-- [MODIFICA] Frase di presentazione -->
+    <p class="hero__tag">Piatti della tradizione, pasta fatta a mano e vini del territorio, in una trattoria di famiglia dal 1987.</p>
+
+    <div class="hero__actions">
+      <a href="#contatti" class="btn btn-light">Prenota un tavolo</a>
+      <a href="#menu" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)">Guarda il menu</a>
+    </div>
+
+    <!-- [MODIFICA] Indicatore stato (opzionale, puoi toglierlo) -->
+    <div class="hero__badge"><span class="dot"></span> Aperto oggi fino alle 23:00</div>
+  </div>
+</section>
+
+<!-- ═══ CHI SIAMO ═════════════════════════════════════════════════════ -->
+<section class="block" id="chi-siamo">
+  <div class="wrap about__grid">
+    <div class="about__body reveal">
+      <p class="eyebrow">Chi siamo</p>
+      <h2 class="section-title">Una famiglia, una cucina.</h2>
+      <!-- [MODIFICA] Storia dell'attività -->
+      <p>Da oltre trent'anni portiamo in tavola i sapori dell'Emilia con ingredienti scelti ogni mattina dai produttori della zona. Ogni piatto nasce come a casa: con calma, con cura, con passione.</p>
+      <p>Un ambiente accogliente dove sentirsi in famiglia, che sia una cena tra amici o un pranzo di lavoro.</p>
+
+      <div class="about__stats">
+        <!-- [MODIFICA] Numeri che raccontano l'attività -->
+        <div class="stat"><b>1987</b><span>Dal</span></div>
+        <div class="stat"><b>40+</b><span>Piatti fatti in casa</span></div>
+        <div class="stat"><b>4.8★</b><span>Recensioni Google</span></div>
+      </div>
+    </div>
+
+    <!-- FOTO: sostituisci questo div con <img src="foto.jpg" alt="..."> -->
+    <div class="photo reveal">
+      <span class="photo__label">Foto: la sala / il locale</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MENU / SERVIZI ════════════════════════════════════════════════ -->
+<section class="block menu" id="menu">
+  <div class="wrap">
+    <div class="reveal">
+      <!-- [MODIFICA] "I nostri servizi" per parrucchieri/estetica ecc. -->
+      <p class="eyebrow">Il menu</p>
+      <h2 class="section-title">Cosa offriamo</h2>
+      <p class="section-intro">Una selezione dei nostri piatti. Il menu completo cambia con le stagioni.</p>
+    </div>
+
+    <div class="menu__cats reveal">
+      <!-- ── Categoria 1 ── -->
+      <div class="menu__cat">
+        <h3>Antipasti</h3>
+        <ul class="menu__list">
+          <!-- [MODIFICA] voce, descrizione, prezzo -->
+          <li class="menu__item">
+            <div><span class="name">Tagliere di salumi</span><span class="desc">Culatello, prosciutto, salame, torta fritta</span></div>
+            <span class="leader"></span><span class="price">14€</span>
+          </li>
+          <li class="menu__item">
+            <div><span class="name">Parmigiana di melanzane</span></div>
+            <span class="leader"></span><span class="price">9€</span>
+          </li>
+          <li class="menu__item">
+            <div><span class="name">Tortino di zucca</span><span class="desc">Con fonduta di parmigiano</span></div>
+            <span class="leader"></span><span class="price">10€</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Categoria 2 ── -->
+      <div class="menu__cat">
+        <h3>Primi</h3>
+        <ul class="menu__list">
+          <li class="menu__item">
+            <div><span class="name">Tortelli di erbetta</span><span class="desc">Burro e salvia</span></div>
+            <span class="leader"></span><span class="price">12€</span>
+          </li>
+          <li class="menu__item">
+            <div><span class="name">Tagliatelle al ragù</span></div>
+            <span class="leader"></span><span class="price">11€</span>
+          </li>
+          <li class="menu__item">
+            <div><span class="name">Anolini in brodo</span><span class="desc">La ricetta della nonna</span></div>
+            <span class="leader"></span><span class="price">13€</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Categoria a tutta larghezza (opzionale) ── -->
+      <div class="menu__cat menu__cat--full">
+        <h3>Secondi & Dolci</h3>
+        <ul class="menu__list">
+          <li class="menu__item">
+            <div><span class="name">Bollito misto con salse</span></div>
+            <span class="leader"></span><span class="price">16€</span>
+          </li>
+          <li class="menu__item">
+            <div><span class="name">Tiramisù della casa</span></div>
+            <span class="leader"></span><span class="price">6€</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERIA ══════════════════════════════════════════════════════ -->
+<section class="block" id="galleria">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Galleria</p>
+      <h2 class="section-title">Uno sguardo</h2>
+    </div>
+
+    <!-- Ogni "tile" è un segnaposto. Per la foto vera metti dentro:
+         <img src="foto1.jpg" alt="descrizione"> -->
+    <div class="gallery__grid reveal">
+      <div class="tile"><span>Foto 1</span></div>
+      <div class="tile"><span>Foto 2</span></div>
+      <div class="tile"><span>Foto 3</span></div>
+      <div class="tile"><span>Foto 4</span></div>
+      <div class="tile"><span>Foto 5</span></div>
+      <div class="tile"><span>Foto 6</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INFO, ORARI & MAPPA ═══════════════════════════════════════════ -->
+<section class="block info" id="info">
+  <div class="wrap info__grid">
+    <div class="reveal">
+      <p class="eyebrow">Dove & Quando</p>
+      <h2 class="section-title">Orari e contatti</h2>
+
+      <ul class="hours" style="margin-top:32px">
+        <!-- [MODIFICA] orari -->
+        <li><span class="day">Lunedì</span><span class="time closed">Chiuso</span></li>
+        <li><span class="day">Martedì – Venerdì</span><span class="time">12:00–14:30 · 19:00–23:00</span></li>
+        <li><span class="day">Sabato</span><span class="time">19:00–23:30</span></li>
+        <li><span class="day">Domenica</span><span class="time">12:00–15:00</span></li>
+      </ul>
+
+      <div class="contact-lines">
+        <!-- [MODIFICA] indirizzo, telefono, email -->
+        <p><span class="ico">📍</span> Via Roma 12, 43121 Parma (PR)</p>
+        <a href="tel:+390521123456"><span class="ico">📞</span> 0521 123456</a>
+        <a href="mailto:info@trattoriadamarco.it"><span class="ico">✉️</span> info@trattoriadamarco.it</a>
+      </div>
+    </div>
+
+    <!-- MAPPA GOOGLE (gratis, senza backend):
+         1. Vai su Google Maps → cerca l'indirizzo del cliente
+         2. Condividi → "Incorpora una mappa" → Copia HTML
+         3. Sostituisci il <div class="map__placeholder"> qui sotto con l'<iframe> copiato
+    -->
+    <div class="map reveal">
+      <div class="map__placeholder">
+        🗺️ &nbsp;Qui va la mappa Google.<br>
+        <small>Google Maps → Condividi → Incorpora una mappa → incolla l'iframe qui.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTATTI / PRENOTAZIONE ═══════════════════════════════════════ -->
+<section class="block" id="contatti">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Contatti</p>
+      <h2 class="section-title">Prenota o scrivici</h2>
+      <p class="section-intro">Compila il form: riceverai risposta il prima possibile. Per urgenze, chiama direttamente.</p>
+    </div>
+
+    <!-- ┌─────────────────────────────────────────────────────────────┐
+         │ FORM SENZA BACKEND (Web3Forms — gratis)                     │
+         │ 1. Vai su https://web3forms.com → inserisci l'email del     │
+         │    cliente → ricevi una "Access Key" gratis.                │
+         │ 2. Incolla la chiave nella variabile WEB3FORMS_KEY          │
+         │    (in fondo al file, nello <script>).                      │
+         │ Fatto: i messaggi arrivano nella mail del cliente.          │
+         └─────────────────────────────────────────────────────────────┘ -->
+    <form class="form reveal" id="contactForm">
+      <div class="form__row">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required>
+        </div>
+        <div class="field">
+          <label for="tel">Telefono</label>
+          <input type="tel" id="tel" name="telefono" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="field">
+        <label for="msg">Messaggio (data, orario, n° persone…)</label>
+        <textarea id="msg" name="messaggio" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" id="submitBtn">Invia richiesta</button>
+      <div class="form__note" id="formNote"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="brand-name">Trattoria <span>da Marco</span></div>
+        <!-- [MODIFICA] -->
+        <p>Cucina tradizionale emiliana nel cuore di Parma dal 1987.</p>
+        <div class="socials">
+          <!-- [MODIFICA] link social (o togli quelli che non servono) -->
+          <a href="#" aria-label="Instagram">◎</a>
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="TripAdvisor">◐</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Naviga</h4>
+        <a href="#chi-siamo">Chi siamo</a>
+        <a href="#menu">Menu</a>
+        <a href="#galleria">Galleria</a>
+        <a href="#contatti">Prenota</a>
+      </div>
+
+      <div>
+        <h4>Contatti</h4>
+        <a href="tel:+390521123456">0521 123456</a>
+        <a href="mailto:info@trattoriadamarco.it">info@trattoriadamarco.it</a>
+        <p style="padding:4px 0">Via Roma 12, Parma</p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="year"></span> Trattoria da Marco · P.IVA 00000000000</span>
+      <span>Sito realizzato con cura.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ═══ CONFIG ════════════════════════════════════════════════════════════ */
+/* [MODIFICA] Incolla qui la Access Key gratuita di https://web3forms.com */
+const WEB3FORMS_KEY = "INSERISCI-LA-TUA-ACCESS-KEY";
+
+/* ─── Menu mobile ─────────────────────────────────────────────────────── */
+const toggle = document.getElementById('navToggle');
+const links  = document.getElementById('navLinks');
+toggle.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+links.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => links.classList.remove('open'))
+);
+
+/* ─── Bordo nav allo scroll ───────────────────────────────────────────── */
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* ─── Comparsa sezioni allo scroll ────────────────────────────────────── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ─── Anno nel footer ─────────────────────────────────────────────────── */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ─── Invio form (Web3Forms, nessun backend) ──────────────────────────── */
+const form = document.getElementById('contactForm');
+const note = document.getElementById('formNote');
+const btn  = document.getElementById('submitBtn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  note.className = 'form__note';
+
+  if (WEB3FORMS_KEY.includes('INSERISCI')) {
+    note.textContent = "⚠️ Form da configurare: aggiungi la Access Key di Web3Forms nello script.";
+    note.classList.add('err');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Invio in corso…';
+
+  const data = new FormData(form);
+  data.append('access_key', WEB3FORMS_KEY);
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    const json = await res.json();
+    if (json.success) {
+      note.textContent = "✅ Richiesta inviata! Ti risponderemo il prima possibile.";
+      note.classList.add('ok');
+      form.reset();
+    } else { throw new Error(); }
+  } catch {
+    note.textContent = "Qualcosa è andato storto. Riprova o chiamaci direttamente.";
+    note.classList.add('err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Invia richiesta';
+  }
+});
+</script>
+</body>
+</html>
